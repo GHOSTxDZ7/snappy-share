@@ -1,5 +1,4 @@
 import { supabase } from "../supabase/config";
-import { v4 as uuidv4 } from "uuid";
 
 const BUCKET_NAME = "snappybucket";              // 📦 Supabase storage bucket name
 const EXPIRATION_MINUTES = 5;                    // ⏳ File expiry time (in minutes)
@@ -10,10 +9,11 @@ const EXPIRATION_MINUTES = 5;                    // ⏳ File expiry time (in min
  * @returns {Object} - Returns an object with upload success status, OTP, and metadata.
  */
 export async function uploadFile(file) {
-  const id = uuidv4();                            // 🔐 Unique ID for internal reference
-  const otp = id.slice(0, 4);                     // 🔢 First 4 characters used as OTP
-  const filename = `${otp}/${file.name}`;         // 📁 Stored under OTP folder
-  const expiresAt = new Date(Date.now() + EXPIRATION_MINUTES * 60 * 1000).toISOString(); // 🕒 Expiry time in ISO format
+  const otp = Math.floor(1000 + Math.random() * 9000).toString(); // 🔢 Generate 4-digit numeric OTP
+  const timestamp = Date.now().toString();                        // 🕒 Millisecond timestamp for uniqueness
+  const id = `${otp}-${timestamp}`;                               // 🔐 Combine OTP and timestamp as ID
+  const filename = `${otp}/${file.name}`;                         // 📁 Store file in a folder named after the OTP
+  const expiresAt = new Date(Date.now() + EXPIRATION_MINUTES * 60 * 1000).toISOString(); // ⏳ Expiry time
 
   // 🗂️ Upload the file to Supabase Storage
   const { error: uploadError } = await supabase.storage
