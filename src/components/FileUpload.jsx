@@ -85,7 +85,7 @@ function FileUpload({ onFileUpload, isUploading }) {
         />
       </svg>
       <h3>Drop your file here or click to browse</h3>
-      <p>Supports all file types • Max 100MB</p>
+      <p>Supports all file types • Max 50MB</p>
       <button className="button button-primary" disabled={isUploading}>
         Choose File
       </button>

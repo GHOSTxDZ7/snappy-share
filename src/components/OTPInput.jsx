@@ -1,7 +1,12 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 function OTPInput({ value, onChange, onRetrieve, isRetrieving }) {
   const inputRefs = useRef([]); // Store references to each input field
+
+  // ✅ Automatically focus the first input on component mount
+  useEffect(() => {
+    inputRefs.current[0]?.focus();
+  }, []);
 
   // Handles input character change
   const handleInputChange = (index, inputValue) => {
@@ -69,7 +74,7 @@ function OTPInput({ value, onChange, onRetrieve, isRetrieving }) {
         onClick={onRetrieve}
         disabled={value.length !== 4 || isRetrieving}
       >
-        {isRetrieving ? "Retrieving..." : "Retrieve File"}
+        {isRetrieving ? "Retrieving..." : "Retrieve Data"}
       </button>
     </div>
   );

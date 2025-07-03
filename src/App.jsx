@@ -1,27 +1,36 @@
-import { useState } from "react"
-import Header from "./components/Header"
-import Features from "./components/Features"
-import UploadSection from "./components/UploadSection"
-import RetrieveSection from "./components/RetrieveSection"
-import Footer from "./components/Footer"
-import "./App.css" // 🎨 Global styles
+// 🌟 React Hooks
+import { useState } from "react";
+
+// 🧩 UI Components
+import Header from "./components/Header";                     // 🔝 Top section with app name/logo
+import Features from "./components/Features";                 // 💡 Shows app features and benefits
+import UploadSection from "./components/UploadSection";       // 📤 UI for uploading files
+import RetrieveSection from "./components/RetrieveSection";   // 📥 UI for retrieving files via OTP
+import TextShareSection from "./components/TextShareSection"; // 📝 UI for sharing clipboard text
+import RetrieveTextSection from "./components/RetrieveTextSection"; // 📋 UI for retrieving shared text
+import Footer from "./components/Footer";                     // 👣 Footer with branding/info
+
+// 🎨 Global styles
+import "./App.css";
 
 function App() {
-  const [activeTab, setActiveTab] = useState("upload") // 🔄 Toggle between 'upload' and 'retrieve' tabs
+  // 🔄 Track which tab is currently active (default: 'upload')
+  const [activeTab, setActiveTab] = useState("upload");
 
   return (
     <div className="app">
       <div className="container">
-        {/* 🔝 Page Header */}
+        
+        {/* 🔝 App Header with title/logo */}
         <Header />
 
-        {/* ⭐ Highlights of the app */}
+        {/* ✨ Feature Highlights */}
         <Features />
 
-        {/* 📁 Upload/Retrieve Toggle Tabs */}
+        {/* 🔘 Navigation Tabs */}
         <div className="tabs">
           <div className="tabs-list">
-            {/* 🚀 Upload Tab Button */}
+            {/* 📤 Upload File Button */}
             <button
               className={`tab-trigger ${activeTab === "upload" ? "active" : ""}`}
               onClick={() => setActiveTab("upload")}
@@ -29,27 +38,45 @@ function App() {
               Upload File
             </button>
 
-            {/* 📥 Retrieve Tab Button */}
+            {/* 📝 Share Text Button */}
+            <button
+              className={`tab-trigger ${activeTab === "text" ? "active" : ""}`}
+              onClick={() => setActiveTab("text")}
+            >
+              Share Text
+            </button>
+
+            {/* 📥 Retrieve File Button */}
             <button
               className={`tab-trigger ${activeTab === "retrieve" ? "active" : ""}`}
               onClick={() => setActiveTab("retrieve")}
             >
               Retrieve File
             </button>
+
+            {/* 📋 Retrieve Shared Text Button */}
+            <button
+              className={`tab-trigger ${activeTab === "retrieveText" ? "active" : ""}`}
+              onClick={() => setActiveTab("retrieveText")}
+            >
+              Retrieve Text
+            </button>
           </div>
 
-          {/* 🧩 Conditional Tab Content */}
+          {/* 🎯 Display Component Based on Active Tab */}
           <div className="tab-content">
-            {activeTab === "upload" && <UploadSection />}     {/* ⬆️ Show Upload UI */}
-            {activeTab === "retrieve" && <RetrieveSection />} {/* ⬇️ Show Retrieve UI */}
+            {activeTab === "upload" && <UploadSection />}         {/* Show file upload UI */}
+            {activeTab === "retrieve" && <RetrieveSection />}     {/* Show file retrieval UI */}
+            {activeTab === "text" && <TextShareSection />}        {/* Show text sharing UI */}
+            {activeTab === "retrieveText" && <RetrieveTextSection />} {/* Show text retrieval UI */}
           </div>
         </div>
 
-        {/* 👣 Footer Disclaimer */}
+        {/* 👣 Footer with links/info */}
         <Footer />
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

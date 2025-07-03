@@ -27,6 +27,7 @@ function RetrieveSection() {
       });
     } finally {
       setIsRetrieving(false); // Hide loading
+      setOtp("") //Clear OTP
     }
   };
 
