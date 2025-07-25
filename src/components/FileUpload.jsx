@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import "../components_css/FileUpload.css"
 
 // ✅ Component to handle file upload via drag-and-drop or manual selection
 function FileUpload({ onFileUpload, isUploading }) {
@@ -56,9 +57,7 @@ function FileUpload({ onFileUpload, isUploading }) {
         <div className="progress">
           <div className="progress-bar" />
         </div>
-        <p style={{ textAlign: "center", fontSize: "0.875rem", color: "#6b7280" }}>
-          Uploading...
-        </p>
+        <p className="uploading-text">Uploading...</p>
       </div>
     );
   }

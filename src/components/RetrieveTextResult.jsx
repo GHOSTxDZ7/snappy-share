@@ -1,106 +1,91 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { cleanupSingleText } from "../utils/clipboardCleanup";
-import { Maximize2, X } from "lucide-react"; // 🧩 Make sure lucide-react is installed
+import { cleanupSingleText } from "../utils/clipboardCleanup"; // 🧹 Function to delete clipboard text after view
+import { Maximize2, X } from "lucide-react"; // 🔍 Icons for maximizing and closing
+import "../components_css/RetrieveTextResult.css";
 
+// 📋 Component to display retrieved text result from the clipboard
 function RetrieveTextResult({ result }) {
+  // 🔄 State to toggle fullscreen view
   const [isFullscreen, setIsFullscreen] = useState(false);
 
+  // 🧼 Automatically clean up the clipboard text 3 seconds after it's viewed
   useEffect(() => {
+    // ⚠️ Exit if result is invalid or unsuccessful
     if (!result?.success || !result?.id) return;
 
+    // ⏱️ Set a timeout to trigger cleanup
     const timeout = setTimeout(async () => {
-      const cleanup = await cleanupSingleText(result.id);
+      const cleanup = await cleanupSingleText(result.id); // Call cleanup utility
       console.log("🧹 Clipboard text cleanup:", cleanup.message);
-    }, 5000);
+    }, 3000); // 3 seconds delay
 
+    // 🧹 Clear timeout if component unmounts
     return () => clearTimeout(timeout);
   }, [result]);
 
+  // 🛑 Don't render anything if no result is present
   if (!result) return null;
+
+  // ❌ If retrieval failed, show error message
   if (!result.success) {
     return (
-      <div className="alert alert-error" style={{ marginTop: "1rem" }}>
+      <div className="alert alert-error retrieve-text-error">
         ❌ {result.error || "Failed to load text"}
       </div>
     );
   }
 
+  // ✅ Success state: Show retrieved text with self-destruct message
   return (
     <>
-      <div className="alert alert-success" style={{ marginTop: "1rem", position: "relative" }}>
-        <div style={{ marginBottom: "0.5rem" }}>✅ Text Retrieved</div>
+      {/* ✅ Success alert box */}
+      <div className="alert alert-success retrieve-text-success">
+        {/* 🔹 Title message */}
+        <div className="success-heading">✅ Text Retrieved</div>
 
-        <div style={{ position: "relative" }}>
+        {/* 📝 Display retrieved text in read-only textarea */}
+        <div className="text-container">
           <textarea
             readOnly
             value={result.content || ""}
             rows={6}
-            style={{ width: "100%", resize: "none", padding: "0.5rem" }}
+            className="retrieve-textarea"
           />
 
-          {/* Maximize button */}
+          {/* 🔳 Button to expand textarea to fullscreen */}
           <button
             onClick={() => setIsFullscreen(true)}
-            style={{
-              position: "absolute",
-              top: 5,
-              right: 5,
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-            }}
+            className="maximize-button"
             title="Maximize"
           >
             <Maximize2 size={18} />
           </button>
         </div>
 
-        <div style={{ fontSize: "0.85rem", marginTop: "0.5rem" }}>
-          🧹 This message will self-destruct in 5 seconds after viewing.
+        {/* 🔐 Self-destruct message */}
+        <div className="self-destruct-note">
+          🧹 This message will self-destruct in 3 seconds after viewing to ensure privacy.
         </div>
       </div>
 
-      {/* Fullscreen overlay */}
+      {/* 🔳 Fullscreen overlay to display text in large view */}
       {isFullscreen && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0, left: 0, right: 0, bottom: 0,
-            background: "rgba(0, 0, 0, 0.85)",
-            zIndex: 9999,
-            display: "flex",
-            flexDirection: "column",
-            padding: "1rem",
-          }}
-        >
+        <div className="fullscreen-overlay">
+          {/* ❌ Close button */}
           <button
             onClick={() => setIsFullscreen(false)}
-            style={{
-              alignSelf: "flex-end",
-              background: "transparent",
-              border: "none",
-              color: "#fff",
-              fontSize: "1.5rem",
-              cursor: "pointer",
-            }}
+            className="close-button"
             title="Close"
           >
             <X />
           </button>
 
+          {/* 📃 Large textarea for fullscreen display */}
           <textarea
             readOnly
             value={result.content || ""}
-            style={{
-              flex: 1,
-              width: "100%",
-              resize: "none",
-              padding: "1rem",
-              fontSize: "1rem",
-              background: "#fff",
-              borderRadius: "8px",
-            }}
+            className="fullscreen-textarea"
           />
         </div>
       )}
@@ -108,6 +93,7 @@ function RetrieveTextResult({ result }) {
   );
 }
 
+// 🧪 Prop type validation to ensure data structure
 RetrieveTextResult.propTypes = {
   result: PropTypes.shape({
     success: PropTypes.bool.isRequired,

@@ -35,7 +35,7 @@ function App() {
               className={`tab-trigger ${activeTab === "upload" ? "active" : ""}`}
               onClick={() => setActiveTab("upload")}
             >
-              Upload File
+              Share File
             </button>
 
             {/* 📝 Share Text Button */}

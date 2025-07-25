@@ -1,5 +1,7 @@
 // ✅ This component displays a footer message about file auto-deletion policy.
 
+import "../components_css/Footer.css"
+
 function Footer() {
   return (
     <div className="footer">

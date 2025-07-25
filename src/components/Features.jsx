@@ -1,5 +1,7 @@
 // ✅ This component renders a set of feature cards explaining the key benefits of the app.
 
+import "../components_css/Feature.css"
+
 function Features() {
   return (
     <div className="features">

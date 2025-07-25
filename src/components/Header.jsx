@@ -1,5 +1,7 @@
 // ✅ This component renders the header section of the application, including the title and tagline.
 
+import "../components_css/Header.css"
+
 function Header() {
   return (
     <div className="header">

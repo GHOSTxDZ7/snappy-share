@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import "../components_css/OTPInput.css"
 
 function OTPInput({ value, onChange, onRetrieve, isRetrieving }) {
   const inputRefs = useRef([]); // Store references to each input field

@@ -1,63 +1,68 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { formatFileSize, timeUntilExpiry } from "../utils/formatters";
-import { cleanupSingleFile } from "../utils/supabaseCleanup";
+import { formatFileSize, timeUntilExpiry } from "../utils/formatters"; // Utility functions for formatting
+import { cleanupSingleFile } from "../utils/supabaseCleanup"; // Cleanup function after expiration/download
+import "../components_css/RetrieveResult.css";
 
+// ✅ Component to display file retrieval result and allow downloading
 function RetrieveResult({ result, onDownload }) {
-  const [timeLeft, setTimeLeft] = useState(""); // Countdown time left
-  const [downloaded, setDownloaded] = useState(false); // ✅ Flag to disable button after download
-  const [intervalId, setIntervalId] = useState(null); // ✅ Track interval for manual clear
+  const [timeLeft, setTimeLeft] = useState("");            // 🕒 Countdown timer until expiry
+  const [downloaded, setDownloaded] = useState(false);     // ✅ Track if file is already downloaded
+  const [intervalId, setIntervalId] = useState(null);      // ⏱️ Save interval ID for clearing
 
-  // Run countdown timer based on file expiry time
+  // ✅ Start countdown timer as soon as component mounts and result is available
   useEffect(() => {
-    if (!result?.expiresAt) return;
+    if (!result?.expiresAt) return; // ⛔ If no expiration info, stop here
 
-    setTimeLeft(timeUntilExpiry(result.expiresAt)); // Set initial value
+    // Set initial time remaining
+    setTimeLeft(timeUntilExpiry(result.expiresAt));
 
+    // ⏳ Start timer to update time left every second
     const interval = setInterval(async () => {
       const updated = timeUntilExpiry(result.expiresAt);
-      setTimeLeft(updated);
+      setTimeLeft(updated); // Update state
 
+      // ❌ If file is expired, clear timer and trigger Supabase cleanup
       if (updated === "Expired") {
-        clearInterval(interval); // Stop countdown
-        const cleanup = await cleanupSingleFile(result.filename, result.otp); // Cleanup after expiry
+        clearInterval(interval);
+        const cleanup = await cleanupSingleFile(result.filename, result.otp);
         console.log("⏱️ Cleanup triggered (expired):", cleanup.message);
       }
-    }, 1000); // Update every second
+    }, 1000); // Every 1s
 
-    setIntervalId(interval); // Store interval ID for later clearing
+    setIntervalId(interval); // Save interval ID for later clearing
 
-    return () => clearInterval(interval); // Cleanup when unmounting
+    // ✅ Cleanup timer when component unmounts or dependency changes
+    return () => clearInterval(interval);
   }, [result?.expiresAt]);
 
-  // Handle file download click
+  // ✅ Function to handle download button click
   const handleDownload = async () => {
-    setDownloaded(true);       // Disable button
-    setTimeLeft("Expired");    // Force UI to show "Expired"
+    setDownloaded(true);       // Disable button immediately
+    setTimeLeft("Expired");    // Show "Expired" in UI
     clearInterval(intervalId); // Stop countdown
 
-    await onDownload();        // Trigger actual file download
+    await onDownload();        // Trigger actual download logic passed as prop
 
-    // Wait 5 seconds before triggering cleanup
+    // ⏱️ Wait for 5s before cleaning up the file from Supabase
     setTimeout(async () => {
       const cleanup = await cleanupSingleFile(result.filename, result.otp);
       console.log("🧹 Cleanup triggered (after download):", cleanup.message);
     }, 5000);
   };
 
-  if (!result) return null; // Guard clause
+  // ⛔ Don't render anything if result is null
+  if (!result) return null;
 
   return (
-    <div
-      className={`alert ${result.success ? "alert-success" : "alert-error"}`}
-      style={{ marginTop: "1rem" }}
-    >
+    <div className={`alert ${result.success ? "alert-success" : "alert-error"} retrieve-alert`}>
       {result.success ? (
         <div>
-          <div style={{ marginBottom: "1rem" }}>✅ File found!</div>
+          {/* ✅ Message: File found */}
+          <div className="file-found">✅ File found!</div>
 
           <div className="result-success">
-            {/* Display file metadata */}
+            {/* 📁 Display basic file metadata */}
             <div className="file-info">
               <p>📁 {result.originalName || "Unnamed File"}</p>
               <p>📋 {result.type || "Unknown type"}</p>
@@ -65,21 +70,21 @@ function RetrieveResult({ result, onDownload }) {
               <p>⏰ {timeLeft}</p>
             </div>
 
-            {/* Download Button */}
+            {/* ⬇️ Download button */}
             <button
               className="button button-primary button-full"
               onClick={handleDownload}
               aria-label="Download file"
-              disabled={timeLeft === "Expired" || downloaded} // Disable after click or expiry
+              disabled={timeLeft === "Expired" || downloaded} // Disable if already downloaded or expired
             >
-              {/* Download Icon */}
+              {/* 📥 Download Icon */}
               <svg
                 width="16"
                 height="16"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                style={{ marginRight: "0.5rem" }}
+                className="download-icon"
               >
                 <path
                   strokeLinecap="round"
@@ -88,23 +93,25 @@ function RetrieveResult({ result, onDownload }) {
                   d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                 />
               </svg>
-              {/* Button Text */}
+
+              {/* 📝 Button text depending on status */}
               {timeLeft === "Expired"
                 ? "Expired"
                 : downloaded
-                ? "File is being downloaded..."
-                : "Download File"}
+                  ? "File is being downloaded..."
+                  : "Download File"}
             </button>
           </div>
         </div>
       ) : (
+        // ❌ If file was not found or failed
         <div>❌ {result.error || "Something went wrong"}</div>
       )}
     </div>
   );
 }
 
-// ✅ Type validation using PropTypes
+// ✅ Prop validation to ensure correct structure is passed to component
 RetrieveResult.propTypes = {
   result: PropTypes.shape({
     success: PropTypes.bool.isRequired,
