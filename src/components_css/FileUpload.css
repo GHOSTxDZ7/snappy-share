@@ -1,38 +1,41 @@
 .file-upload {
-  border: 2px dashed #d1d5db;
+  border: 2px dashed var(--border-color);
   border-radius: 0.5rem;
   padding: 2rem;
   text-align: center;
-  transition: all 0.2s;
+  transition: all 0.2s ease-in-out;
   cursor: pointer;
+  background-color: var(--card-bg);
+  color: var(--text-primary);
 }
 
 .file-upload:hover {
-  border-color: #9ca3af;
+  border-color: var(--accent-color);
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .file-upload.drag-active {
-  border-color: #2563eb;
-  background: #dbeafe;
+  border-color: var(--accent-color);
+  background: rgba(37, 99, 235, 0.1);
 }
 
 .file-upload-icon {
   width: 3rem;
   height: 3rem;
-  color: #9ca3af;
+  color: var(--icon-muted);
   margin: 0 auto 1rem;
 }
 
 .file-upload h3 {
   font-size: 1.125rem;
-  font-weight: 500;
-  color: #374151;
+  font-weight: 600;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .file-upload p {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text-secondary);
   margin-bottom: 1rem;
 }
 
@@ -44,7 +47,7 @@
 .progress {
   width: 100%;
   height: 0.5rem;
-  background: #f3f4f6;
+  background: var(--input-bg);
   border-radius: 0.25rem;
   overflow: hidden;
   margin-bottom: 0.5rem;
@@ -52,7 +55,7 @@
 
 .progress-bar {
   height: 100%;
-  background: #2563eb;
+  background: var(--accent-color);
   transition: width 0.3s;
   animation: progress-animation 2s infinite;
 }
@@ -72,5 +75,5 @@
 .uploading-text {
   text-align: center;
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text-secondary);
 }

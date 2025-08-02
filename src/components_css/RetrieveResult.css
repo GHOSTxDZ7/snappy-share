@@ -1,11 +1,18 @@
 .retrieve-alert {
   margin-top: 1rem;
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
 }
 
 .file-found {
   margin-bottom: 1rem;
+  color: var(--text-primary);
 }
 
 .download-icon {
   margin-right: 0.5rem;
+  color: var(--accent-color);
 }

@@ -32,7 +32,7 @@ function App() {
           <div className="tabs-list">
             {/* 📤 Upload File Button */}
             <button
-              className={`tab-trigger ${activeTab === "upload" ? "active" : ""}`}
+              className={`button tab-trigger ${activeTab === "upload" ? "active" : "disabled"} button-glow`}
               onClick={() => setActiveTab("upload")}
             >
               Share File
@@ -40,7 +40,7 @@ function App() {
 
             {/* 📝 Share Text Button */}
             <button
-              className={`tab-trigger ${activeTab === "text" ? "active" : ""}`}
+              className={`tab-trigger ${activeTab === "text" ? "active" : "disabled"} button-glow`}
               onClick={() => setActiveTab("text")}
             >
               Share Text
@@ -48,7 +48,7 @@ function App() {
 
             {/* 📥 Retrieve File Button */}
             <button
-              className={`tab-trigger ${activeTab === "retrieve" ? "active" : ""}`}
+              className={`tab-trigger ${activeTab === "retrieve" ? "active" : "disabled"} button-glow`}
               onClick={() => setActiveTab("retrieve")}
             >
               Retrieve File
@@ -56,7 +56,7 @@ function App() {
 
             {/* 📋 Retrieve Shared Text Button */}
             <button
-              className={`tab-trigger ${activeTab === "retrieveText" ? "active" : ""}`}
+              className={`tab-trigger ${activeTab === "retrieveText" ? "active" : "disabled"} button-glow`}
               onClick={() => setActiveTab("retrieveText")}
             >
               Retrieve Text

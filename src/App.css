@@ -1,3 +1,5 @@
+@import './components_css/DarkTheme.css';
+
 * {
   margin: 0;
   padding: 0;
@@ -9,11 +11,14 @@ body {
     "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background 0.3s, color 0.3s;
 }
 
 .app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+  background: var(--bg-gradient);
   padding: 1rem;
 }
 
@@ -30,7 +35,8 @@ body {
 .tabs-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: #f3f4f6;
+  gap: 0.5rem;
+  background: var(--card-bg);
   border-radius: 0.375rem;
   padding: 0.25rem;
   margin-bottom: 1rem;
@@ -44,19 +50,31 @@ body {
   cursor: pointer;
   font-weight: 500;
   transition: all 0.2s;
+  color: var(--text-primary);
+}
+
+.tab-trigger.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.05),
+              0 2px 8px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(2px);
+  color: var(--text-primary);
 }
 
 .tab-trigger.active {
-  background: white;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  background: var(--accent-light);
+  box-shadow: var(--shadow-md);
+  color: var(--text-primary);
 }
 
 .tab-trigger:hover {
-  background: #e5e7eb;
+  background: var(--bg-hover);
 }
 
 .tab-trigger.active:hover {
-  background: white;
+  background: var(--accent-light);
 }
 
 /* Button */
@@ -75,32 +93,81 @@ body {
 }
 
 .button-primary {
-  background: #2563eb;
-  color: white;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  color: var(--text-on-accent);
+  border: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  font-size: 1rem;
+  letter-spacing: 0.5px;
 }
 
 .button-primary:hover:not(:disabled) {
-  background: #1d4ed8;
+  background: linear-gradient(135deg, var(--accent-blue-dark), var(--accent-purple));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
 .button-outline {
   background: transparent;
-  color: #374151;
-  border: 1px solid #d1d5db;
+  color: var(--accent-blue);
+  border: 1px solid var(--accent-blue);
+  font-size: 1rem;
+  letter-spacing: 0.5px;
 }
 
 .button-outline:hover:not(:disabled) {
-  background: #f9fafb;
-}
-
-.button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  background: rgba(30, 41, 59, 0.3);
+  border-color: var(--accent-blue-dark);
+  color: var(--accent-blue-dark);
 }
 
 .button-full {
   width: 100%;
+  font-weight: 500;
+  font-size: 1rem;
 }
+
+/* Glowing border effect for active button */
+.tab-trigger.active.button-glow {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.tab-trigger.active.button-glow::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  background: linear-gradient(
+    120deg,
+    #3b82f6,
+    #8b5cf6,
+    #3b82f6
+  );
+  background-size: 200% 200%;
+  animation: glowFlow 3s linear infinite;
+  border-radius: inherit;
+  filter: blur(6px);
+  opacity: 0.8;
+}
+
+@keyframes glowFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.tab-trigger.active.button-glow:hover {
+  transform: scale(1.02);
+}
+
 
 /* Alert */
 .alert {
@@ -110,22 +177,22 @@ body {
 }
 
 .alert-success {
-  background: #f0fdf4;
-  border-color: #22c55e;
-  color: #15803d;
+  background: var(--success-bg);
+  border-color: var(--success-border);
+  color: var(--success-text);
 }
 
 .alert-error {
-  background: #fef2f2;
-  border-color: #ef4444;
-  color: #dc2626;
+  background: var(--error-bg);
+  border-color: var(--error-border);
+  color: var(--error-text);
 }
 
 /* Universal */
 .card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 0.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
 
@@ -143,7 +210,7 @@ body {
 }
 
 .card-description {
-  color: #6b7280;
+  color: var(--text-secondary);
   font-size: 0.875rem;
 }
 
@@ -153,14 +220,13 @@ body {
 
 .file-info {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text-secondary);
   margin-bottom: 1rem;
 }
 
 .file-info p {
   margin-bottom: 0.25rem;
 }
-
 
 /* Responsive */
 @media (max-width: 768px) {

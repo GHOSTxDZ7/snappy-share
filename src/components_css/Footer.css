@@ -1,6 +1,6 @@
 .footer {
   text-align: center;
-  margin-top: 2rem;
-  font-size: 0.875rem;
-  color: #6b7280;
+  margin-top: 3rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
 }
