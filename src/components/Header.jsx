@@ -5,10 +5,15 @@ import "../components_css/Header.css"
 function Header() {
   return (
     <div className="header">
-      {/* Main heading of the application */}
-      <h1>Anonymous File Share</h1>
-
-      {/* Subtext that describes the core feature of the app */}
+      <h1 className="title">
+        Anonymous File Share
+        <div className="aurora">
+          <div className="aurora__item"></div>
+          <div className="aurora__item"></div>
+          <div className="aurora__item"></div>
+          <div className="aurora__item"></div>
+        </div>
+      </h1>
       <p>Share files securely with a simple 4-digit code. No Login required.</p>
     </div>
   );

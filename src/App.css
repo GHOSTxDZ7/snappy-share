@@ -18,7 +18,7 @@ body {
 
 .app {
   min-height: 100vh;
-  background: var(--bg-gradient);
+  background: black;
   padding: 1rem;
 }
 
@@ -53,15 +53,6 @@ body {
   color: var(--text-primary);
 }
 
-.tab-trigger.disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.05),
-              0 2px 8px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(2px);
-  color: var(--text-primary);
-}
 
 .tab-trigger.active {
   background: var(--accent-light);
@@ -107,6 +98,15 @@ body {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
+.button-primary:disabled {
+  background: #444 !important; /* Dull dark gray background */
+  color: #aaa !important;      /* Dimmed text */
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+  opacity: 0.6;
+}
+
 .button-outline {
   background: transparent;
   color: var(--accent-blue);
@@ -128,45 +128,60 @@ body {
 }
 
 /* Glowing border effect for active button */
-.tab-trigger.active.button-glow {
+.glow-on-hover {
+  border: none;
+  outline: none;
+  color: var(--text-secondary);
+  cursor: pointer;
   position: relative;
-  z-index: 1;
-  overflow: hidden;
+  z-index: 0;
+  border-radius: 5px;
+  transition: transform 0.2s ease-in-out;
 }
 
-.tab-trigger.active.button-glow::before {
-  content: "";
+.glow-on-hover:before {
+  content: '';
+  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00,
+    #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
   position: absolute;
-  inset: -2px;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
   z-index: -1;
-  background: linear-gradient(
-    120deg,
-    #3b82f6,
-    #8b5cf6,
-    #3b82f6
-  );
-  background-size: 200% 200%;
-  animation: glowFlow 3s linear infinite;
-  border-radius: inherit;
-  filter: blur(6px);
-  opacity: 0.8;
+  filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 20s linear infinite;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  border-radius: 5px;
 }
 
-@keyframes glowFlow {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+
+/* .glow-on-hover:hover:before, */
+.glow-on-hover.active:before {
+  opacity: 1;
 }
 
-.tab-trigger.active.button-glow:hover {
-  transform: scale(1.02);
+
+.glow-on-hover:after {
+  content: '';
+  background: var(--card-bg);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  z-index: -1;
 }
+
+@keyframes glowing {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
 
 
 /* Alert */

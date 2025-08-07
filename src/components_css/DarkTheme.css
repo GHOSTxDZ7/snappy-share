@@ -20,8 +20,8 @@
   --accent-light: rgba(59, 130, 246, 0.2);
 
   /* Alerts */
-  --success-bg: rgba(16, 185, 129, 0.1);
-  --success-border: #10b981;
+  --success-bg: rgba(16, 131, 185, 0.1);
+  --success-border: #1097b9;
   --success-text: #22c55e;
 
   --error-bg: rgba(255, 0, 0, 0.1);
@@ -30,10 +30,20 @@
 
   /* Borders and Hover */
   --border-color: #2c2c2f;
+  --scrollbar-color: #37373f;
   --hover-color: #27272a;
   --bg-hover: #1c1c20;
 
   /* Shadows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+  /* Aurora Effect */
+  --clr-1: #00c2ff;
+  --clr-2: #33ff8c;
+  --clr-3: #ff854c;
+  --clr-4: #d54cff;
+  --blur: 1rem;
+  --fs: clamp(3rem, 8vw, 7rem);
+  --ls: clamp(-1.75px, -0.25vw, -3.5px);
 }

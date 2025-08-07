@@ -22,16 +22,31 @@
   resize: none;
   padding: 0.5rem;
   font-size: 1rem;
-  background: var(--input-bg);
+  background: transparent;
   color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+
+/* For Chrome, Edge, and Safari */
+.retrieve-textarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.retrieve-textarea::-webkit-scrollbar-track {
+  border-radius: 8px;
+}
+
+.retrieve-textarea::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #00c6ff, #0072ff);
+  border-radius: 8px;
 }
 
 .maximize-button {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: -35px;
+  right: -8px;
   background: transparent;
   border: none;
   color: var(--text-secondary);
@@ -72,7 +87,7 @@
   resize: none;
   padding: 1rem;
   font-size: 1rem;
-  background: var(--input-bg);
+  background: transparent;
   color: var(--text-primary);
   border: 1px solid var(--border-color);
   border-radius: 8px;
